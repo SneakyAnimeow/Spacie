@@ -1,12 +1,15 @@
 ﻿global using IWorker = Microsoft.Extensions.Hosting.IHostedService;
-
-using System.Reflection;
+using App.Extensions;
+using App.Services.AppInfoService;
+using App.Services.DiscordClientService;
 using App.Services.GameService;
+using App.Workers;
 using DotNetEnv;
 using DotNetEnv.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
 
 Env.Load(".env");
@@ -20,10 +23,6 @@ builder.ConfigureAppConfiguration((context, config) =>
         .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true,
             reloadOnChange: true)
         .AddDotNetEnv(".env")
-        .AddInMemoryCollection([
-            new KeyValuePair<string, string?>("Spacie:Discord:Token",
-                Environment.GetEnvironmentVariable("DISCORD_TOKEN")),
-        ])
         .Build();
 
     config.AddConfiguration(configuration);
@@ -33,11 +32,19 @@ builder.UseSerilog((context, configuration) => { configuration.ReadFrom.Configur
 
 builder.ConfigureServices(services =>
 {
+    services.AddScoped<IAppInfoService, AppInfoService>();
     services.AddScoped<IGameService, GameService>();
+    services.AddScoped<IDiscordClientService, DiscordClientService>();
+    services.AddWorker<DiscordWorker>();
 });
 
 var app = builder.Build();
 
-Log.Information("Starting Spacie v{Version}", Assembly.GetExecutingAssembly().GetName().Version);
+using var scope = app.Services.CreateScope();
+
+var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+var appInfoService = scope.ServiceProvider.GetRequiredService<IAppInfoService>();
+
+logger.LogInformation("Starting {appName}", await appInfoService.GetFullNameAsync());
 
 app.Run();
