@@ -1,4 +1,6 @@
 ﻿global using IWorker = Microsoft.Extensions.Hosting.IHostedService;
+using App.Data.Sqlite.Context;
+using App.Data.Sqlite.Repositories.CustomValueRepository;
 using App.Extensions;
 using App.Services.AppInfoService;
 using App.Services.DiscordClientService;
@@ -32,6 +34,10 @@ builder.UseSerilog((context, configuration) => { configuration.ReadFrom.Configur
 
 builder.ConfigureServices(services =>
 {
+    services.AddDbContext<ISqliteDbContext, SqliteDbContext>();
+
+    services.AddScoped<ICustomValueRepository, CustomValueRepository>();
+    
     services.AddScoped<IAppInfoService, AppInfoService>();
     services.AddScoped<IGameService, GameService>();
     services.AddScoped<IDiscordClientService, DiscordClientService>();
