@@ -5,7 +5,7 @@ namespace App.Discord.Commands;
 /// <summary>
 /// Attribute used to mark a class as a slash command option.
 /// </summary>
-[AttributeUsage(AttributeTargets.Interface)]
+[AttributeUsage(AttributeTargets.Interface, AllowMultiple = true)]
 public class SlashCommandOption() : Attribute
 {
     /// <summary>
