@@ -1,4 +1,5 @@
 ﻿global using IWorker = Microsoft.Extensions.Hosting.IHostedService;
+using App.Discord.Commands.PingCommand;
 using App.Extensions;
 using App.Services.AppInfoService;
 using App.Services.DiscordClientService;
@@ -35,6 +36,9 @@ builder.ConfigureServices(services =>
     services.AddScoped<IAppInfoService, AppInfoService>();
     services.AddScoped<IGameService, GameService>();
     services.AddScoped<IDiscordClientService, DiscordClientService>();
+    
+    services.AddCommands();
+    
     services.AddWorker<DiscordWorker>();
 });
 

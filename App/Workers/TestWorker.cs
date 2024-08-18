@@ -3,6 +3,9 @@ using Microsoft.Extensions.Logging;
 
 namespace App.Workers;
 
+/// <summary>
+/// Represents a test worker that performs a specific task at regular intervals.
+/// </summary>
 public class TestWorker : IWorker, IAsyncDisposable
 {
     private readonly IConfiguration _configuration;

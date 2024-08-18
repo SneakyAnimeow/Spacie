@@ -10,10 +10,13 @@ public interface IAppInfoService
     /// Retrieves the full name of the application asynchronously.
     /// </summary>
     /// <returns>The full name of the application.</returns>
-    /// <remarks>
-    /// This method returns the full name of the application using the IAppInfoService interface.
-    /// </remarks>
     Task<string> GetFullNameAsync();
+
+    /// <summary>
+    /// Retrieves the name of the application asynchronously.
+    /// </summary>
+    /// <returns>The name of the application.</returns>
+    Task<string> GetNameAsync();
 
     /// <summary>
     /// Retrieves the version number of the current application.
@@ -22,4 +25,12 @@ public interface IAppInfoService
     /// The version number of the current application, or null if the version number is not available.
     /// </returns>
     Task<string?> GetVersionAsync();
+
+    /// <summary>
+    /// Retrieves the version number of the installed .NET asynchronously.
+    /// </summary>
+    /// <returns>
+    /// The version number of the installed .NET , or null if the version number is not available.
+    /// </returns>
+    Task<string> GetDotnetVersionAsync();
 }

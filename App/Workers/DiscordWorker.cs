@@ -4,6 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace App.Workers;
 
+/// <summary>
+/// Represents a worker that manages the Discord client service.
+/// </summary>
 public class DiscordWorker : IWorker, IAsyncDisposable
 {
     private readonly ILogger<DiscordWorker> _logger;
