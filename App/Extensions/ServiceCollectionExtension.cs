@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using App.Data.Sqlite.Repositories;
 using App.Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,6 +43,36 @@ public static class ServiceCollectionExtension
             {
                 // Register the interface and its implementation in the service collection
                 services.AddScoped(commandInterface, implementation);
+            }
+        }
+
+        return services;
+    }
+    
+    public static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        // Get the current assembly
+        var assembly = Assembly.GetExecutingAssembly();
+
+        // Iterate over all types in the assembly
+        foreach (var type in assembly.GetTypes())
+        {
+            // Get all interfaces implemented by the type
+            var interfaces = type.GetInterfaces();
+
+            // Check if the type implements any interface that inherits from IRepositoryDummyInterface
+            foreach (var @interface in interfaces)
+            {
+                // Check if the interface inherits from IRepository<T>
+                var repositoryInterface = @interface.GetInterfaces()
+                    .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IRepository<>));
+
+                // Check if IRepository<T> inherits from IRepositoryDummyInterface
+                if (!(repositoryInterface != null && typeof(IRepositoryDummyInterface).IsAssignableFrom(repositoryInterface))) 
+                    continue;
+                
+                // Register the interface and its implementation in the service collection
+                services.AddScoped(@interface, type);
             }
         }
 

@@ -4,7 +4,7 @@
 /// Represents a generic repository for CRUD operations.
 /// </summary>
 /// <typeparam name="T">The entity type.</typeparam>
-public interface IRepository<T>
+public interface IRepository<T> : IRepositoryDummyInterface
 {
     /// <summary>
     /// Adds a new entity to the repository.

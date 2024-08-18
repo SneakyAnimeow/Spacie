@@ -35,8 +35,7 @@ builder.UseSerilog((context, configuration) => { configuration.ReadFrom.Configur
 builder.ConfigureServices(services =>
 {
     services.AddDbContext<ISqliteDbContext, SqliteDbContext>();
-
-    services.AddScoped<ICustomValueRepository, CustomValueRepository>();
+    services.AddRepositories();
     
     services.AddScoped<IAppInfoService, AppInfoService>();
     services.AddScoped<IGameService, GameService>();
