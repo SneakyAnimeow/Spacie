@@ -1,5 +1,4 @@
 ﻿global using IWorker = Microsoft.Extensions.Hosting.IHostedService;
-using App.Discord.Commands.PingCommand;
 using App.Extensions;
 using App.Services.AppInfoService;
 using App.Services.DiscordClientService;
