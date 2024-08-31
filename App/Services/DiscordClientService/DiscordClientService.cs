@@ -169,7 +169,13 @@ public class DiscordClientService : IDiscordClientService
                     if (commandService is not IBaseSlashCommand command)
                         return;
 
-                    await command.HandleAsync(context);
+                    try
+                    {
+                        await command.HandleAsync(context);
+                    }catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to execute command {command}", slashCommand.Name);
+                    }
                 }
             };
             

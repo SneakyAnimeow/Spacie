@@ -38,13 +38,13 @@ public class CustomValueRepository : RepositoryBase<CustomValueRepository>, ICus
         return true;
     }
 
-    public ValueTask<CustomValue?> GetByIdAsync(int id)
+    public async ValueTask<CustomValue?> GetByIdAsync(int id)
     {
-        return _context.CustomValues.FindAsync(id);
+        return await _context.CustomValues.FindAsync(id);
     }
 
-    public Task<List<CustomValue>> GetAllAsync()
+    public async Task<List<CustomValue>> GetAllAsync()
     {
-        return _context.CustomValues.ToListAsync();
+        return await _context.CustomValues.ToListAsync();
     }
 }

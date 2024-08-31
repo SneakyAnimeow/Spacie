@@ -19,7 +19,8 @@ public sealed class SqliteDbContext : DbContext, ISqliteDbContext
     public DbContext Context { get; }
     
     public DbSet<CustomValue> CustomValues { get; set; }
-    
+    public DbSet<TTT> TTTs { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlite(_configuration.GetSection("SQLITE_DB_PATH").Get<string>());

@@ -10,4 +10,6 @@ namespace App.Data.Sqlite.Context;
 public interface ISqliteDbContext : ICurrentDbContext
 {
     DbSet<CustomValue> CustomValues { get; set; }
+    
+    DbSet<TTT> TTTs { get; set; }
 }
